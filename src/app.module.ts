@@ -10,27 +10,33 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true
+      isGlobal: true,
     }),
     SequelizeModule.forRootAsync({
-      imports:[ConfigModule],
-      inject:[ConfigService],
-      useFactory:(config : ConfigService) => ({
-        dialect:"postgres",
-        host:config.get("DB_HOST"),
-        port:config.get("DB_PORT"),
-        database:config.get("DB_DATABASE"),
-        username:config.get("DB_USERNAME"),
-        password:config.get("DB_PASSWORD"),
-        models:[],
-        autoLoadModels:true,
-        synchronize:true,
-        logging:true
-      })
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get('DB_HOST'),
+        port: config.get('DB_PORT'),
+        database: config.get('DB_DATABASE'),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        models: [],
+        autoLoadModels: true,
+        synchronize: true,
+        logging: false,
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        },
+      }),
     }),
     UsersModule,
-    FoodsModule, 
-    OrdersModule
+    FoodsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

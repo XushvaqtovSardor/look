@@ -16,7 +16,7 @@ export class FoodsService {
 
   async createFood(payload: createFoodDto) {
     try {
-      return await this.foodModel.create(payload);
+      return await this.foodModel.create(payload as any);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
