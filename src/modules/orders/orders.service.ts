@@ -42,16 +42,8 @@ export class OrdersService {
         },
       });
       if (existOrder) {
-        await this.orderModel.update(
-          {
-            count: existOrder.count + +payload.count,
-          },
-          {
-            where: {
-              id: existOrder.id,
-            },
-          },
-        );
+        existOrder.count = existOrder.count + +payload.count;
+        await existOrder.save();
       } else {
         await this.orderModel.create({
           userId: payload.userId,
