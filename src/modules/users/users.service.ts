@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from './entities/user.entity';
 import { createUserDto } from './dto/create.user.dto';
 import { Order } from '../orders/entities/order.entity';
+import { Food } from '../foods/entities/food.entity';
 
 @Injectable()
 export class UsersService {
@@ -40,7 +41,17 @@ export class UsersService {
   async findById(id: number) {
     const checkExist = await this.userModel.findOne({
       where: { id },
-      include: [Order],
+      include: [
+        {
+          model: Order,
+          include: [
+            {
+              model: Food,
+              attributes: ['id', 'food_name', 'food_img'],
+            },
+          ],
+        },
+      ],
     });
     if (!checkExist) throw new NotFoundException();
 

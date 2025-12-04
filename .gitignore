@@ -14,7 +14,7 @@ lerna-debug.log*
 test-api.sh
 # OS
 .DS_Store
-
+frontend-example.html
 # Tests
 /coverage
 /.nyc_output
