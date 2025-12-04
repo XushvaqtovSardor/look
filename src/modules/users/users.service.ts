@@ -43,13 +43,8 @@ export class UsersService {
       where: { id },
       include: [
         {
-          model: Order,
-          include: [
-            {
-              model: Food,
-              attributes: ['id', 'food_name', 'food_img'],
-            },
-          ],
+          model: Food,
+          attributes: ['food_name', 'food_img'],
         },
       ],
     });
