@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: (config: ConfigService) => ({
         dialect: 'postgres',
         host: config.get('DB_HOST'),
-        port: config.get('DB_PORT'),
+        port: parseInt(config.get('DB_PORT') || '5432'),
         database: config.get('DB_DATABASE'),
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
@@ -26,11 +26,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadModels: true,
         synchronize: true,
         logging: false,
+        pool: {
+          max: 5,
+          min: 0,
+          acquire: 60000,
+          idle: 10000,
+        },
         dialectOptions: {
           ssl: {
             require: true,
             rejectUnauthorized: false,
           },
+          connectTimeout: 60000,
+        },
+        retry: {
+          max: 3,
+          timeout: 10000,
         },
       }),
     }),
