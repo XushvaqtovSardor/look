@@ -18,17 +18,12 @@ export class UsersService {
   ) {}
 
   async createUser(payload: createUserDto) {
-    try {
-      const userExist = await this.userModel.findOne({
-        where: { phone: payload.phone },
-      });
-      if (userExist) throw new ConflictException('User already exist');
+    const userExist = await this.userModel.findOne({
+      where: { phone: payload.phone },
+    });
+    if (userExist) throw new ConflictException('User already exist');
 
-      return await this.userModel.create(payload as any);
-    } catch (err) {
-      console.log(err);
-      throw new InternalServerErrorException(err);
-    }
+    return await this.userModel.create(payload as any);
   }
   async findAll() {
     try {

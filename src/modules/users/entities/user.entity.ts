@@ -22,16 +22,16 @@ export class User extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare fullname: string;
+  fullname: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  declare phone: string;
+  phone: string;
 
   @BelongsToMany(() => Food, () => Order)
-  foods: Food[];
+  foods: Food;
 
   @HasMany(() => Order)
   orders: Order;
